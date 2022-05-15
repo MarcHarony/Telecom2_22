@@ -1,4 +1,6 @@
 
+%ATTENTION : FILTRER TOUS LES CANAUX DANS LE CANAL :p
+
 
 input_signal = x;
 time_input = t2;
