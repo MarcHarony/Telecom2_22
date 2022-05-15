@@ -97,10 +97,10 @@ adc1 = quantiz(scale1,partition,codebook);
 figure(10);
 plot(adc1)
 
+t4 = 0:1/length(norm_h):1-1/length(norm_h);
 
 
-
-adapt = conv(adc1,norm_h.*cos(omega*t2*n(1)));
+adapt = conv(adc1,norm_h.*cos(omega*t4*n(1)));
 
 figure(11);
 plot(adapt)
