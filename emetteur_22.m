@@ -40,7 +40,7 @@ omega= 2*pi*2/Tb;
 L=3;
 alpha = 0.2; %facteur rolloff
 beta=30;%facteur suréchantillonnage
-tn = tb/beta; %periode numerique
+Tn = Tb/beta; %periode numerique
 
 
 h = rcosdesign(alpha,2*L,beta);
