@@ -158,8 +158,8 @@ trimmed_msg=adapt(index_start:end);
 k = index_start+1:beta: index_start+beta*length(msg);
 linked_values = adapt(k);
 
-ones_index  = find(adapt(k)>0)
-zero_index = find(adapt(k)<=0)
+ones_index  = find(adapt(k)>0);
+zero_index = find(adapt(k
 
 figure(10)
 plot(adapt)
