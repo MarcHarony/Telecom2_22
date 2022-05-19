@@ -77,7 +77,7 @@ msg_mod4 = x4.*port4;
 
 figure(2)
 subplot(2,2,1);
-plot(t2,port1);
+plot(t2,msg_mod);
 hold on;
 plot(t2,x);
 subplot(2,2,2);
@@ -95,7 +95,7 @@ msg_fin = amp * (msg_mod + msg_mod2 + msg_mod3 + msg_mod4);
 
 gamma = 10;%suréchantillonnage pour rendre le signal "analogique"
 msg_an = interpft(msg_fin,gamma*size(msg_fin,2));%méthode interpolation
-ta = tn/gamma;%periode analogique
+ta = Tn/gamma;%periode analogique
 fa = 1/ta;%freq analog
 
 t3 = (0:1/((length(msg_an)-1)):1);
