@@ -3,21 +3,21 @@ trame = round(rand(1,10));
 trame = [1 0 0 0 1 0 0 0 1 0]
 msg = [sync trame]*2-1;
 
-R = 1000;%débit binaire
-Tb = 1/R;%période 1 bit
+R = 1000;%dÃ©bit binaire
+Tb = 1/R;%pÃ©riode 1 bit
 
-Ttrame = 0:Tb:15*Tb;%période d'une trame
+Ttrame = 0:Tb:15*Tb;%pÃ©riode d'une trame
 
 
 L=3;
 alpha = 0.7; %facteur rolloff
-beta=30;%facteur suréchantillonnage
+beta=30;%facteur surÃ©chantillonnage
 Tn = Tb/beta; %periode numerique
 
 h = rcosdesign(alpha,2*L,beta);%FIR
 norm_h = h/max(h);%FIR normalise
 
-x = upfirdn(msg, norm_h, beta);%Filtrage et suréchantillonnage 
+x = upfirdn(msg, norm_h, beta);%Filtrage et surÃ©chantillonnage 
 
 t2 = 0:15*Tb/length(x):15*Tb*(1-1/length(x));
 figure(1);
@@ -40,12 +40,12 @@ plot(t2,x);
 rms_power = rms(msg_mod);
 Power = 1;
 Zc = 50;
-U_rms = sqrt(Power*Zc);%(Z*I²*Z)^0.5 = ZI = U(Z)
+U_rms = sqrt(Power*Zc);%(Z*IÂ²*Z)^0.5 = ZI = U(Z)
 amp = U_rms/rms_power;
 sig_rms = rms(amp*msg_mod);
 
-gamma = 10;%suréchantillonnage pour rendre le signal "analogique"
-msg_an = interpft(msg_mod,gamma*size(msg_mod,2));%méthode interpolation
+gamma = 10;%surÃ©chantillonnage pour rendre le signal "analogique"
+msg_an = interpft(msg_mod,gamma*size(msg_mod,2));%mÃ©thode interpolation
 Ta = Tn/gamma;%periode analogique
 fa = 1/Ta;%freq analog
 
@@ -80,7 +80,7 @@ subplot(2,2,2)
 plot(time_input,damped_signal);
 title('Damped signal')
 
-%Ajout bruit AWGN de densité spectrale N0/2
+%Ajout bruit AWGN de densitÃ© spectrale N0/2
 lower_limit = 10;
 upper_limit = 12;
 SNR = (upper_limit-lower_limit).*rand(1) + lower_limit;
@@ -89,7 +89,7 @@ subplot(2,2,3)
 plot(time_input,noised_signal);
 title('Noisy signal')
 
-%Ajout délai entre 2% et 8% de la longueur de time_input
+%Ajout dÃ©lai entre 2% et 8% de la longueur de time_input
 lower_limit = 0.02;
 upper_limit = 0.08;
 delay = round(((upper_limit-lower_limit).*rand(1) + lower_limit) * size(time_input,2));
@@ -105,7 +105,7 @@ title('Delayed signal')
 
 %RECEPTEUR
 y = abs(fft(delayed_signal));
-y_pos = y(1:(round(length(y)/2)));%spectre fréquences positives
+y_pos = y(1:(round(length(y)/2)));%spectre frÃ©quences positives
 f2 = (0:1:length(y_pos)-1);
 
 figure(5);
@@ -155,15 +155,20 @@ fprintf('length of corr_matrix: %d\n', length(corr_matrix))
 index_start = max_index - length(adapt);
 trimmed_msg=adapt(index_start:end);
 
-k = index_start+1:beta: index_start+beta*length(msg);
+k = index_start+1:beta: index_start+beta*length(msg)
 linked_values = adapt(k);
 
-ones_index  = find(adapt(k)>0);
-zero_index = find(adapt(k
+ones_index  = find(adapt(k)>0)
+zero_index = find(adapt(k)<=0)
+
+received_message = zeros(1,16);
+for i=1:length(ones_index)
+    received_message(ones_index[i]] = 1;
+end
 
 figure(10)
 plot(adapt)
-title("signal séparé et adapté pour canal 1")
+title("signal sÃ©parÃ© et adaptÃ© pour canal 1")
 hold on
 plot(k,linked_values,'r*')
 linked_values;

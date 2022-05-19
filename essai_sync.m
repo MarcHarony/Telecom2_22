@@ -155,11 +155,19 @@ fprintf('length of corr_matrix: %d\n', length(corr_matrix))
 index_start = max_index - length(adapt);
 trimmed_msg=adapt(index_start:end);
 
-k = index_start+1:beta: index_start+beta*length(msg);
+k = index_start+1:beta: index_start+beta*length(msg)
 linked_values = adapt(k);
 
 ones_index  = find(adapt(k)>0)
 zero_index = find(adapt(k)<=0)
+
+received_message = zeros(1,16);
+for i=1:length(ones_index)
+    received_message(ones_index(i)) = 1;
+end
+figure(13)
+stairs(Ttrame,received_message)
+axis([0 17*Tb -0.1 1.1]);
 
 figure(10)
 plot(adapt)
